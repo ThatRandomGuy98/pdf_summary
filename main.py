@@ -11,7 +11,21 @@ from langchain_classic.chains import create_retrieval_chain
 
 from pathlib import Path
 from typing import List
-PATH = Path(r"C:\Users\delga\Documents\trabalho\universidade\Mestrado\dissertation\Generative AI for Personalized Meal Planning A Recommendation System for Retail Customers.pdf")
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+THESIS_PDF_PATH = os.getenv("THESIS_PDF_PATH")
+
+if not THESIS_PDF_PATH:
+    raise EnvironmentError(
+        "THESIS_PDF_PATH not set. Please define it in a .env file."
+    )
+
+PATH = Path(THESIS_PDF_PATH)
+
+if not PATH.exists():
+    raise FileNotFoundError(f"PDF not found at {PATH}")
 
 #---------------------------------------------------------------------------------------------------
 def pdf_loader(path: Path) -> List[Document]:
